@@ -1,0 +1,14 @@
+input {
+  margin-left: 10px;
+}
+
+.submit-button {
+  position: absolute;
+  right: 10px;
+}
+
+.form {
+  display: grid !important;
+  grid-template-columns: 200px 150px 150px 100px 100px;
+  column-gap: 10px;
+}

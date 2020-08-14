@@ -1,9 +1,11 @@
 import React from "react";
 
+import PageContainer from "./components/PageContainer/pageContainer";
+
 function App() {
   return (
     <div className="App">
-      <h1>בדיקה</h1>
+      <PageContainer />
     </div>
   );
 }
