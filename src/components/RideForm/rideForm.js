@@ -15,11 +15,20 @@ const submitButtonStyle = {
 };
 
 const RideForm = () => {
-  const [numOfPassengers, setNumOfPassengers] = useState("");
+  const [input, setInput] = useState({
+    pickUpLat: "",
+    pickUpLong: "",
+    dropLat: "",
+    dropLong: "",
+    numOfPassengers: "",
+  });
 
-  const handleChange = (event) => {
-    setNumOfPassengers(event.target.value);
-    console.log(numOfPassengers);
+  const handleChange = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const handleCalculateClicked = () => {
+    console.log(input);
   };
 
   return (
@@ -27,7 +36,7 @@ const RideForm = () => {
       <form className="form">
         <FormControl>
           <InputLabel htmlFor="age-native-simple">Number of passengers</InputLabel>
-          <Select value={numOfPassengers} onChange={handleChange}>
+          <Select value={input.numOfPassengers} name="numOfPassengers" onChange={handleChange}>
             <MenuItem value={1}>1</MenuItem>
             <MenuItem value={2}>2</MenuItem>
             <MenuItem value={3}>3</MenuItem>
@@ -37,15 +46,24 @@ const RideForm = () => {
           </Select>
         </FormControl>
 
-        <TextField id="standard-basic" label="From where (lat)" />
-        <TextField id="standard-basic" label="From where (long)" />
-        <TextField id="standard-basic" label="To (lat)" />
-        <TextField id="standard-basic" label="To (long)" />
+        <TextField
+          id="standard-basic"
+          label="From where (lat)"
+          name="pickUpLat"
+          onChange={handleChange}
+        />
+        <TextField
+          id="standard-basic"
+          label="From where (long)"
+          name="pickUpLong"
+          onChange={handleChange}
+        />
+        <TextField id="standard-basic" label="To (lat)" name="dropLat" onChange={handleChange} />
+        <TextField id="standard-basic" label="To (long)" name="dropLong" onChange={handleChange} />
 
         <Button
           style={submitButtonStyle}
-          type="submit"
-          value="Submit"
+          onClick={handleCalculateClicked}
           variant="contained"
           color="primary"
         >
