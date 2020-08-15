@@ -12,8 +12,8 @@ import "./rideForm.css";
 
 const submitButtonStyle = {
   position: "absolute",
-  left: "75%",
-  top: "35%",
+  right: "150px",
+  top: "150px",
 };
 
 const RideForm = () => {
