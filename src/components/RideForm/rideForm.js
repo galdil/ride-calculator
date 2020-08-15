@@ -11,7 +11,8 @@ import "./rideForm.css";
 
 const submitButtonStyle = {
   position: "absolute",
-  right: "20px",
+  left: "75%",
+  top: "35%",
 };
 
 const RideForm = () => {
@@ -20,15 +21,41 @@ const RideForm = () => {
     pickUpLong: "",
     dropLat: "",
     dropLong: "",
-    numOfPassengers: "",
+    numOfPassengers: 1,
+  });
+
+  const [errors, setErrors] = useState({
+    pickUpLat: false,
+    pickUpLong: false,
+    dropLat: false,
+    dropLong: false,
+    numOfPassengers: false,
   });
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleCalculateClicked = () => {
-    console.log(input);
+  const validate = () => {
+    let hasError = false;
+    let updatedErrors = errors;
+    for (const [key, value] of Object.entries(input)) {
+      if (value === "") {
+        updatedErrors[key] = true;
+        hasError = true;
+      } else {
+        updatedErrors[key] = false;
+      }
+    }
+
+    setErrors({ ...errors, updatedErrors });
+    return !hasError;
+  };
+
+  const handleCalculateClicked = async () => {
+    const valid = await validate();
+
+    if (valid) console.log(input);
   };
 
   return (
@@ -51,15 +78,37 @@ const RideForm = () => {
           label="From where (lat)"
           name="pickUpLat"
           onChange={handleChange}
+          required
+          error={errors.pickUpLat}
+          onBlur={validate}
         />
         <TextField
           id="standard-basic"
           label="From where (long)"
           name="pickUpLong"
           onChange={handleChange}
+          error={errors.pickUpLong}
+          onBlur={validate}
+          required
         />
-        <TextField id="standard-basic" label="To (lat)" name="dropLat" onChange={handleChange} />
-        <TextField id="standard-basic" label="To (long)" name="dropLong" onChange={handleChange} />
+        <TextField
+          required
+          id="standard-basic"
+          label="To (lat)"
+          name="dropLat"
+          error={errors.dropLat}
+          onBlur={validate}
+          onChange={handleChange}
+        />
+        <TextField
+          required
+          id="standard-basic"
+          label="To (long)"
+          name="dropLong"
+          error={errors.dropLong}
+          onBlur={validate}
+          onChange={handleChange}
+        />
 
         <Button
           style={submitButtonStyle}
