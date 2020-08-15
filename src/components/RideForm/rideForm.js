@@ -33,6 +33,8 @@ const RideForm = () => {
     numOfPassengers: false,
   });
 
+  const [estimateCost, setEstimateCost] = useState("");
+
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -71,11 +73,19 @@ const RideForm = () => {
     const valid = validate();
     const payload = sanitizePayload(new Date());
     if (valid) {
-      console.log(payload);
       fetch(lambdaUrl, {
         method: "post",
         body: JSON.stringify({ data: payload }),
-      });
+      }).then(
+        async (res) => {
+          const response = await res.json();
+          setEstimateCost(response.predictions[0].score);
+          console.log(response.predictions[0].score);
+        },
+        (e) => {
+          console.log(e);
+        }
+      );
     }
   };
 
@@ -140,6 +150,9 @@ const RideForm = () => {
           Calculate
         </Button>
       </form>
+      {estimateCost && (
+        <div className="estimate-cost">Your estimate cost is: {estimateCost.toFixed(2)}$</div>
+      )}
     </div>
   );
 };

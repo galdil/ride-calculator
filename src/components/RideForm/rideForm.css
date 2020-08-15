@@ -7,3 +7,9 @@ input {
   grid-template-columns: 200px 150px 150px 150px 150px;
   column-gap: 10px;
 }
+
+.estimate-cost {
+  margin-top: 70px;
+  font-size: 22px;
+  text-align: center;
+}
