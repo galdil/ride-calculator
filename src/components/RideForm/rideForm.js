@@ -8,6 +8,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 
 import { lambdaUrl } from "./consts";
+import distanceCalc from "../../helpers";
 import "./rideForm.css";
 
 const submitButtonStyle = {
@@ -56,6 +57,7 @@ const RideForm = () => {
   };
 
   const sanitizePayload = (date) => {
+    const { pickUpLong, pickUpLat, dropLong, dropLat } = input;
     let currentDays = new Array(7).fill(0);
     let currentHours = new Array(12).fill(0);
     const hour = date.toLocaleString("en-US", { hour: "numeric" });
@@ -64,9 +66,14 @@ const RideForm = () => {
     currentHours[hour.slice(0, 1)] = 1;
     currentDays[date.getDay()] = 1;
 
-    return `${input.pickUpLong},${input.pickUpLat},${input.dropLong},${input.dropLat},${
+    return `${pickUpLong},${pickUpLat},${dropLong},${dropLat},${
       input.numOfPassengers
-    },${Math.floor(Math.random() * 5000) + 1},${currentDays},${pm},${currentHours}`;
+    },${distanceCalc(
+      pickUpLat,
+      pickUpLong,
+      dropLat,
+      dropLong
+    )},${currentDays},${pm},${currentHours}`;
   };
 
   const handleCalculateClicked = () => {
